@@ -1,0 +1,122 @@
+'use strict';
+
+// Weather Example
+// See https://wit.ai/sungkim/weather/stories and https://wit.ai/docs/quickstart
+const Wit = require('node-wit').Wit;
+const FB = require('./facebook.js');
+const Config = require('./const.js');
+
+const firstEntityValue = (entities, entity) => {
+  const val = entities && entities[entity] &&
+    Array.isArray(entities[entity]) &&
+    entities[entity].length > 0 &&
+    entities[entity][0].value;
+  if (!val) {
+    return null;
+  }
+  return typeof val === 'object' ? val.value : val;
+};
+
+// Bot actions
+const actions = {
+  suporte({context, entities}){
+    console.log('chamando Engagement...');
+    context.forecast = 'chamando Engagement...';
+    return Promise.resolve(context);
+  },
+  compra({context, entities}){
+    console.log(entities);
+    var email = firstEntityValue(entities, "email");
+    var intent = firstEntityValue(entities, "intent");
+    var phone = firstEntityValue(entities, "phone_number");
+    var alunos = firstEntityValue(entities, "number");
+    var contato = firstEntityValue(entities, "contato");
+    var obj=[];
+    context.forecast = 'Seu e-mail é '+email;
+    obj.email = email;
+    context.forecast += ' sua intenção é '+intent;
+    context.forecast += ' seu telefone é '+phone;
+    obj.phone = phone;
+    context.forecast += ' seu colégio é '+contato;
+    obj.contato = contato;
+    context.forecast += ' e você tem '+alunos+' alunos';
+    obj.alunos = alunos;
+    var to = [{
+                   email: 'luis@classapp.com.br',
+                 }];
+    emailSender.sendEmail('formulario',to, obj, function (send) {});
+
+    return Promise.resolve(context);
+  },
+  say(sessionId, context, message, cb) {
+    console.log(message);
+
+    // Bot testing mode, run cb() and return
+    if (require.main === module) {
+      cb();
+      return;
+    }
+
+    // Our bot has something to say!
+    // Let's retrieve the Facebook user whose session belongs to from context
+    // TODO: need to get Facebook user name
+    const recipientId = context._fbid_;
+    if (recipientId) {
+      // Yay, we found our recipient!
+      // Let's forward our bot response to her.
+      FB.fbMessage(recipientId, message, (err, data) => {
+        if (err) {
+          console.log(
+            'Oops! Ocorreu um erro ao reencaminhar a resposta para',
+            recipientId,
+            ':',
+            err
+          );
+        }
+
+        // Let's give the wheel back to our bot
+        cb();
+      });
+    } else {
+      console.log('Oops! Não achei o usuário no contexto:', context);
+      // Giving the wheel back to our bot
+      cb();
+    }
+  },
+  merge(sessionId, context, entities, message, cb) {
+    // Retrieve the location entity and store it into a context field
+    const loc = firstEntityValue(entities, 'location');
+    if (loc) {
+      context.loc = loc; // store it in context
+    }
+
+    cb(context);
+  },
+
+  error(sessionId, context, error) {
+    console.log(error.message);
+  },
+
+  // fetch-weather bot executes
+  ['fetch-weather'](sessionId, context, cb) {
+    // Here should go the api call, e.g.:
+    // context.forecast = apiCall(context.loc)
+    context.forecast = 'sunny';
+    cb(context);
+  },
+};
+
+
+const getWit = () => {
+  return new Wit(Config.WIT_TOKEN, actions);
+};
+
+exports.getWit = getWit;
+
+// bot testing mode
+// http://stackoverflow.com/questions/6398196
+if (require.main === module) {
+  console.log("Bot em modo de teste");
+  const client = getWit();
+  client.interactive();
+}
