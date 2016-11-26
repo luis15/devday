@@ -19,15 +19,15 @@ const firstEntityValue = (entities, entity) => {
 
 // Bot actions
 const actions = {
-  marcar({context, entities}){
+  marcar(sessionId, context, cb){
     context.forecast = 'Marcado';
     return Promise.resolve(context);
   },
-  desmarcar({context, entities}){
+  desmarcar(sessionId, context, cb){
     context.forecast = 'Desmarcado';
     return Promise.resolve(context);
   },
-  say(sessionId, context, message, cb) {
+  say(sessionId, context,message, cb) {
     console.log(message);
 
     // Bot testing mode, run cb() and return
