@@ -20,17 +20,13 @@ const firstEntityValue = (entities, entity) => {
 // Bot actions
 const actions = {
   marcar({context, entities}){
-    var datetime = firstEntityValue(entities, "datetime");
+    var email = firstEntityValue(entities, "datetime");
     context.forecast = 'Consulta marcada';
     return Promise.resolve(context);
   },
   desmarcar({context, entities}){
-    var datetime = firstEntityValue(entities, "datetime");
-    context.forecast = 'Consulta desmarcada';
-    return Promise.resolve(context);
-  },
-  consultas({context, entities}){
-    context.forecast = 'Próximas Consultas';
+    var email = firstEntityValue(entities, "datetime");
+    context.forecast = 'Consulta marcada';
     return Promise.resolve(context);
   },
   say(sessionId, context, message, cb) {
