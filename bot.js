@@ -20,12 +20,12 @@ const firstEntityValue = (entities, entity) => {
 // Bot actions
 const actions = {
   marcar({context, entities}){
-    var email = firstEntityValue(entities, "datetime");
+    var datetime = firstEntityValue(entities, "datetime");
     context.forecast = 'Consulta marcada';
     return Promise.resolve(context);
   },
   desmarcar({context, entities}){
-    var email = firstEntityValue(entities, "datetime");
+    var datetime = firstEntityValue(entities, "datetime");
     context.forecast = 'Consulta marcada';
     return Promise.resolve(context);
   },
