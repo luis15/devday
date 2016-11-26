@@ -19,33 +19,12 @@ const firstEntityValue = (entities, entity) => {
 
 // Bot actions
 const actions = {
-  suporte({context, entities}){
-    console.log('chamando Engagement...');
-    context.forecast = 'chamando Engagement...';
+  marcar({context, entities}){
+    context.forecast = 'Marcado';
     return Promise.resolve(context);
   },
-  compra({context, entities}){
-    console.log(entities);
-    var email = firstEntityValue(entities, "email");
-    var intent = firstEntityValue(entities, "intent");
-    var phone = firstEntityValue(entities, "phone_number");
-    var alunos = firstEntityValue(entities, "number");
-    var contato = firstEntityValue(entities, "contato");
-    var obj=[];
-    context.forecast = 'Seu e-mail é '+email;
-    obj.email = email;
-    context.forecast += ' sua intenção é '+intent;
-    context.forecast += ' seu telefone é '+phone;
-    obj.phone = phone;
-    context.forecast += ' seu colégio é '+contato;
-    obj.contato = contato;
-    context.forecast += ' e você tem '+alunos+' alunos';
-    obj.alunos = alunos;
-    var to = [{
-                   email: 'luis@classapp.com.br',
-                 }];
-    emailSender.sendEmail('formulario',to, obj, function (send) {});
-
+  desmarcar({context, entities}){
+    context.forecast = 'Desmarcado';
     return Promise.resolve(context);
   },
   say(sessionId, context, message, cb) {
