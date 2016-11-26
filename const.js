@@ -2,8 +2,8 @@
 
 // Wit.ai parameters
 process.env.WIT_TOKEN = '3QTCX3NWIZ76GWHNZBSY4PGHWJ62NQX6';
-process.env.FB_PAGE_TOKEN = 'EAAZAsw9N6e2sBAKQ4qDWfT4gl3kqQdgMbpcBluzZCWcxbZAfZAqGTkku1bs2wl0j9qSELuu8A9hJ9vQ59boiqEZAf60n85sfebEndSL2cyr2858fKhwQUa8qetvW7knCHDTY8klbLiEyrSdO33xZC44KGBDmkXvWaPn4afKcvcdwZDZD';
-process.env.FB_VERIFY_TOKEN = 'ff7fd577a1e6d7eb0458b3380f545afc';
+process.env.FB_PAGE_TOKEN = 'EAAZAsw9N6e2sBAKtvK8wZBi8CuZCpdPJJgMSPrZC9clHTMYSC6cZBlNc1ohurruhIO1UhFXhjZBmL3cGwn64LgZAhiGol2ZCzdUgMyTjaRHrEivzks7h0VQHiwXhSZASyFdrg02L4h7KxtxvmQ6uojYXVXFZAV5nfqIBiswu8KNLhrWQZDZD';
+process.env.FB_VERIFY_TOKEN = 'c65587bc3b9ee5ae8eecaa009f22b5c5';
 const WIT_TOKEN = process.env.WIT_TOKEN;
 if (!WIT_TOKEN) {
   throw new Error('missing WIT_TOKEN');
