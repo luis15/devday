@@ -24,11 +24,6 @@ const actions = {
     context.forecast = 'Consulta marcada';
     return Promise.resolve(context);
   },
-  desmarcar({context, entities}){
-    var datetime = firstEntityValue(entities, "datetime");
-    context.forecast = 'Consulta marcada';
-    return Promise.resolve(context);
-  },
   say(sessionId, context, message, cb) {
     console.log(message);
 
